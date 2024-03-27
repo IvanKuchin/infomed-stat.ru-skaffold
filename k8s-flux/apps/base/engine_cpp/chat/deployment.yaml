@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-deployment
+  labels:
+    type: chat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: chat
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: chat-pod
+      labels:
+        type: chat
+    spec:
+      hostAliases:
+      - ip: "172.16.17.68"
+        hostnames:
+        - "mail"
+      imagePullSecrets:
+        - name: ghcr-secret
+      volumes:
+        - name: images-vol
+          persistentVolumeClaim:
+            claimName: images-pvc
+        - name: logs-app-vol
+          emptyDir: {}
+        - name: chat-key-cert
+          secret:
+            secretName: https-secret
+        - name: app-secret
+          configMap:
+            name: app-secret
+      containers:
+        - name: chat-container
+          image: chat-image
+          ports:
+            - containerPort: 7681
+          volumeMounts:
+            - name: images-vol
+              mountPath: "/home/httpd/images/html"
+            - name: logs-app-vol
+              mountPath: "/usr/local/share/www/log"
+            - name: app-secret
+              mountPath: "/usr/local/share/www/config/secret"
+            - name: chat-key-cert
+              mountPath: "/usr/local/share/www/chat/cert-https"
+        - name: log-app-container
+          image: busybox-image
+          securityContext:
+            runAsUser: 33
+            runAsGroup: 33
+          volumeMounts:
+          - name: logs-app-vol
+            mountPath: /var/log
+          args:
+          - /bin/sh
+          - -c
+          - >
+              touch /var/log/backend.log;
+              tail -n+1 -f /var/log/backend.log;
+
+      initContainers:
+      - name: init-mysql
+        image: busybox-image
+        command: ['sh', '-c', 'until nslookup db-service.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mysql; sleep 2; done;']
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chat-service
+  labels:
+    type: chat
+spec:
+  ports:
+  - name: app-service
+    port: 7681
+    targetPort: 7681
+  selector:
+    type: chat

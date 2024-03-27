@@ -1,0 +1,12 @@
+resources:
+  - adminer
+  - app
+  #- chat
+  - backup
+  - db
+  - go-migrate
+  - connectopia-registration
+  #- goaccess
+  - ingress
+  - pv
+namespace: www-bestbounty-ru

@@ -1,0 +1,13 @@
+resources:
+  - adminer
+  - app
+  - captcha
+  - chat
+  - backup
+  - db
+  - go-migrate
+  - connectopia-registration
+  #- goaccess
+  - ingress
+  - pv
+namespace: www-connme-ru

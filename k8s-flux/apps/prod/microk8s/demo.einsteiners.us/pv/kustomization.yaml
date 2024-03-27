@@ -1,0 +1,4 @@
+resources:
+- db-pv.yaml
+- images-pv.yaml
+
