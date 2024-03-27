@@ -1,0 +1,56 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+
+manifests:
+  kustomize:
+    paths: 
+    - k8s-flux/apps/dev/docker-desktop/dev.infomed-stat.ru/
+build:
+  artifacts:
+    - image: infomed-stat.ru-app
+      context: ../infomed-stat.ru/
+      docker:
+        dockerfile: supplemental/docker/dev/Dockerfile
+        target: app
+        buildArgs: 
+          BUILD_REPO: infomed-stat.ru
+    - image: infomed-stat.ru-uploaders
+      context: ../infomed-stat.ru/
+      docker:
+        dockerfile: supplemental/docker/dev/Dockerfile
+        target: uploaders
+        buildArgs: 
+          BUILD_REPO: infomed-stat.ru
+    - image: infomed-stat.ru-cron
+      context: ../infomed-stat.ru/
+      docker:
+        dockerfile: supplemental/docker/dev/Dockerfile
+        target: cron
+        buildArgs: 
+          BUILD_REPO: infomed-stat.ru
+    - image: infomed-stat.ru-admin
+      context: ../infomed-stat.ru-admin/
+      docker:
+        dockerfile: supplemental/docker/prod/Dockerfile
+        target: app
+        buildArgs: 
+          BUILD_REPO: infomed-stat.ru-admin
+    - image: infomed-stat.ru-ui
+      context: ../infomed-stat.ru-ui/
+      docker:
+        dockerfile: supplemental/docker/prod/Dockerfile
+        target: app
+        buildArgs: 
+          BUILD_REPO: infomed-stat.ru-ui
+        
+deploy:
+  # kubectl:
+  #   defaultNamespace: dev-infomed-stat-ru
+
+  # sometime Pod-s emit event of failure to mount PVC, immediately after start, which tells skaffold to stop
+  # as a workaround below config tells skaffold to ignore errors for the first 15 secs
+  statusCheck: true
+  statusCheckDeadlineSeconds: 120
+  tolerateFailuresUntilDeadline: true
+
+ 
