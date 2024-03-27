@@ -1,8 +1,0 @@
-resources:
-- db-pv.yaml
-- images-pv.yaml
-
-
-#patchesStrategicMerge:
-#- app-ingress.yaml
-#- app-ingress-redirect.yaml

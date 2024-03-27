@@ -1,4 +1,0 @@
-resources:
-- cronjob.yaml
-- deployment.yaml
-

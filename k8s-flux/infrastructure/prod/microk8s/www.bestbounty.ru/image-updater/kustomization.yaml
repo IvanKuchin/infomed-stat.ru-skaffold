@@ -1,6 +1,0 @@
-resources:
-- admin.yaml
-- app.yaml
-- uploaders.yaml
-- cron.yaml
-- ui.yaml

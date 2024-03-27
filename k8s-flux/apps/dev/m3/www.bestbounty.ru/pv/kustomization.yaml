@@ -1,5 +1,0 @@
-resources:
-- apachelogs-pv.yaml
-- db-pv.yaml
-- goaccess-pv.yaml
-- images-pv.yaml
