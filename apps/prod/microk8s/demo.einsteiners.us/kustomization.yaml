@@ -1,0 +1,10 @@
+resources:
+  - adminer
+  - app
+  - backup
+  - db
+  - go-migrate
+  #- goaccess
+  - ingress
+  - pv
+namespace: demo-einsteiners-us

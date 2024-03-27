@@ -1,0 +1,11 @@
+resources:
+  - api.yaml
+  - docs.yaml
+  - frontend.yaml
+images:
+  - name: api-image
+    newName: ghcr.io/connectopia-social/www.connectopia.social-api:v0.1.4 # {"$imagepolicy": "flux-system:connectopia-api"}
+  - name: docs-image
+    newName: ghcr.io/connectopia-social/www.connectopia.social-docs:v0.1.4 # {"$imagepolicy": "flux-system:connectopia-docs"}
+  - name: ui-image
+    newName: ghcr.io/connectopia-social/www.connectopia.social-ui:v0.1.5 # {"$imagepolicy": "flux-system:connectopia-ui"}

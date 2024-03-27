@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+  
+  labels:
+    type: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: app
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: app-pod
+      labels:
+        type: app
+    spec:
+      #securityContext:
+      #  fsGroup: 33    # --- assign group ID to mounted volume
+      imagePullSecrets:
+        - name: ghcr-secret
+      volumes:
+        - name: images-vol
+          persistentVolumeClaim:
+            claimName: images-pvc
+      containers:
+        - name: app-container
+          image: wordpress
+          ports:
+            - containerPort: 80
+          volumeMounts:
+          - name: images-vol
+            mountPath: /var/www/html
+          env:
+          - name: WORDPRESS_DB_HOST
+            value: db-service
+          - name: WORDPRESS_DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secret
+                key: MYSQL_DATABASE
+                optional: false # same as default; "mysecret" must exist and include a key named "password"
+          - name: WORDPRESS_DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secret
+                key: MYSQL_USER
+                optional: false # same as default; "mysecret" must exist and include a key named "password"
+          - name: WORDPRESS_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secret
+                key: MYSQL_PASSWORD
+                optional: false # same as default; "mysecret" must exist and include a key named "password"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+  
+  labels:
+    type: app
+spec:
+  ports:
+  - name: app-service
+    port: 80
+    targetPort: 80
+  selector:
+    type: app
