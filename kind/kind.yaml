@@ -1,0 +1,17 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+
+  extraPortMappings:
+  - containerPort: 80
+    hostPort: 80
+    protocol: TCP
+
+  extraMounts:
+  - hostPath: /home/ikuchin/tmp/dev.infomed-stat.ru/pv/db
+    containerPath: /home/ikuchin/tmp/dev.infomed-stat.ru/pv/db
+  - hostPath: /home/ikuchin/tmp/dev.infomed-stat.ru/pv/html
+    containerPath: /home/ikuchin/tmp/dev.infomed-stat.ru/pv/html
+  - hostPath: /home/ikuchin/tmp/dev.infomed-stat.ru/pv/images
+    containerPath: /home/ikuchin/tmp/dev.infomed-stat.ru/pv/images

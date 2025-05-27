@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo "Bootstraping kind cluster"
+
+echo "Remove previous version"
+kind delete cluster --name kind
+
+echo "Create cluster"
+kind create cluster --config ./kind.yaml || exit 1
+
+echo "Installing ingress controller"
+kubectl apply -f https://kind.sigs.k8s.io/examples/ingress/deploy-ingress-nginx.yaml
+
+echo "Creating namespace"
+kubectl create ns dev-infomed-stat-ru
+
+echo "Configuring k8s context"
+kubectl config set-context --current --namespace dev-infomed-stat-ru
+
+echo "Configure k8s config maps"
+kubectl apply -f ../../secrets/mysql-root-passwd.yaml -f ../../secrets/app-secret.yaml
+
+echo "run [slaffold dev] to start dev environment"
