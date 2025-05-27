@@ -4,7 +4,7 @@ kind: Config
 manifests:
   kustomize:
     paths: 
-    - k8s-flux/apps/dev/docker-desktop/dev.infomed-stat.ru/
+    - k8s-flux/apps/dev/ubuntu-desktop/dev.infomed-stat.ru/
 build:
   artifacts:
     - image: infomed-stat.ru-app
@@ -33,7 +33,7 @@ build:
       docker:
         dockerfile: supplemental/docker/prod/Dockerfile
         target: app
-        buildArgs: 
+        buildArgs:
           BUILD_REPO: infomed-stat.ru-admin
     - image: infomed-stat.ru-ui
       context: ../infomed-stat.ru-ui/
