@@ -20,4 +20,4 @@ kubectl config set-context --current --namespace dev-infomed-stat-ru
 echo "Configure k8s config maps"
 kubectl apply -f ../../secrets/mysql-root-passwd.yaml -f ../../secrets/app-secret.yaml
 
-echo "run [slaffold dev] to start dev environment"
+echo "run [skaffold dev] to start the dev environment"
