@@ -11,7 +11,15 @@ nodes:
   extraMounts:
   - hostPath: /home/ikuchin/tmp/dev.infomed-stat.ru/pv/db
     containerPath: /home/ikuchin/tmp/dev.infomed-stat.ru/pv/db
-  - hostPath: /home/ikuchin/tmp/dev.infomed-stat.ru/pv/html
-    containerPath: /home/ikuchin/tmp/dev.infomed-stat.ru/pv/html
   - hostPath: /home/ikuchin/tmp/dev.infomed-stat.ru/pv/images
     containerPath: /home/ikuchin/tmp/dev.infomed-stat.ru/pv/images
+
+  # development only
+  # if html needs to be modified
+  - hostPath: /home/ikuchin/docs/src/web-sites/dev.infomed-stat.ru/infomed-stat.ru-ui/html
+    containerPath: /home/ikuchin/tmp/dev.infomed-stat.ru/pv/html
+
+  # development only
+  # if templates need to be modified
+  - hostPath: /home/ikuchin/docs/src/web-sites/dev.infomed-stat.ru/infomed-stat.ru/templates
+    containerPath: /home/ikuchin/tmp/dev.infomed-stat.ru/pv/templates
