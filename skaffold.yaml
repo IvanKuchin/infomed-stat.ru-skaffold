@@ -12,21 +12,21 @@ build:
       docker:
         dockerfile: supplemental/docker/dev/Dockerfile
         target: app
-        buildArgs: 
+        buildArgs:
           BUILD_REPO: infomed-stat.ru
     - image: infomed-stat.ru-uploaders
       context: ../infomed-stat.ru/
       docker:
         dockerfile: supplemental/docker/dev/Dockerfile
         target: uploaders
-        buildArgs: 
+        buildArgs:
           BUILD_REPO: infomed-stat.ru
     - image: infomed-stat.ru-cron
       context: ../infomed-stat.ru/
       docker:
         dockerfile: supplemental/docker/dev/Dockerfile
         target: cron
-        buildArgs: 
+        buildArgs:
           BUILD_REPO: infomed-stat.ru
     - image: infomed-stat.ru-admin
       context: ../infomed-stat.ru-admin/
@@ -40,9 +40,8 @@ build:
       docker:
         dockerfile: supplemental/docker/prod/Dockerfile
         target: app
-        buildArgs: 
+        buildArgs:
           BUILD_REPO: infomed-stat.ru-ui
-        
 deploy:
   # kubectl:
   #   defaultNamespace: dev-infomed-stat-ru
